@@ -1,28 +1,21 @@
 package com.jpz.zhangjp.basejpz;
 
-import android.content.Context;
+import android.app.Activity;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.AttributeSet;
 
 /**
  * Created by zhangjp on 2016/6/7.
  */
 public class TestView extends  BaseView{
+    private final String TAG = "TestView";
 
     Paint paint ;
-    public TestView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init();
-    }
-    public TestView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init();
-    }
 
-    public TestView(Context context) {
-        super(context);
+
+    public TestView(Activity activity) {
+        super(activity);
         init();
     }
 
@@ -33,7 +26,10 @@ public class TestView extends  BaseView{
 
     @Override
     protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        canvas.drawLine(0,0,300,300,paint);
+        //canvas.drawLine(deltaX,deltaY,width+deltaY,height+deltaY,paint);
+        paint.setStyle(Paint.Style.FILL);
+        //canvas.drawRect(0+deltaX,0+deltaY,width+deltaX,height+deltaY,paint);
+        canvas.drawRect(0,0,width,height,paint);
     }
+
 }
