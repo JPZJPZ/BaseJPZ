@@ -1,6 +1,7 @@
 package com.jpz.zhangjp.basejpz;
 
 import android.app.Activity;
+import android.graphics.Paint;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -10,11 +11,11 @@ import com.jpz.zhangjp.basejpz.com.jpz.zhangjp.basejpz.utils.Utils;
 /**
  * Created by zhangjp on 2016/6/7.
  */
-public class BaseView extends View{
+public class BaseView extends View {
     /**
      * activity who added the view
      */
-    private Activity mActivity;
+    Activity mActivity;
 
     /**
      * view width
@@ -33,7 +34,7 @@ public class BaseView extends View{
      */
     float deltaY;
     /**
-     *  view init or move stop  position(X) relative it's parent view
+     * view init or move stop  position(X) relative it's parent view
      */
     float xPosition;
     /**
@@ -45,9 +46,15 @@ public class BaseView extends View{
      */
     boolean canMove = false;
 
+    /**
+     *
+     */
+    Paint mPaint;
+
     public BaseView(Activity activity) {
         super(activity);
         mActivity = activity;
+        mPaint = new Paint();
     }
 
     /**
@@ -68,18 +75,19 @@ public class BaseView extends View{
      * @param percentWidth view width percent with screen width
      */
     public void setWidthPercent(float percentWidth) {
-        width = Utils.getScreenWidth(mActivity)*percentWidth;
+        width = Utils.getScreenWidth(mActivity) * percentWidth;
     }
 
     /**
      * @param percentHeight view width percent with screen width
      */
     public void setHeightPercent(float percentHeight) {
-        height = Utils.getScreenHeight(mActivity)*percentHeight;
+        height = Utils.getScreenHeight(mActivity) * percentHeight;
     }
 
     /**
-     *  set x position relative it's parent
+     * set x position relative it's parent
+     *
      * @param xPosition
      */
     public void setXPosition(float xPosition) {
@@ -89,15 +97,17 @@ public class BaseView extends View{
 
     /**
      * set y position relative it's parent
+     *
      * @param yPosition
      */
-    public  void setYPosition(float yPosition) {
+    public void setYPosition(float yPosition) {
         this.yPosition = yPosition;
         setY(yPosition);
     }
 
     /**
      * set x position relative it's parent with percent
+     *
      * @param percentX
      */
     public void setXPositionPercent(float percentX) {
@@ -106,10 +116,15 @@ public class BaseView extends View{
 
     /**
      * set y position relative it's parent with percent
+     *
      * @param percentY
      */
     public void setYPositionPercent(float percentY) {
         setYPosition(Utils.getScreenHeight(mActivity) * percentY);
+    }
+
+    public void setPaint(Paint paint) {
+        mPaint = paint;
     }
 
     /**
@@ -120,9 +135,10 @@ public class BaseView extends View{
      * action_down y position
      */
     float yStart;
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if(!canMove) {
+        if (!canMove) {
             return super.onTouchEvent(event);
         }
         switch (event.getAction()) {
@@ -133,9 +149,9 @@ public class BaseView extends View{
                 return true;
             case MotionEvent.ACTION_MOVE:
                 deltaX = event.getRawX() - xStart;
-                deltaY = event.getRawY()-yStart;
-                setTranslationX(xPosition+deltaX);
-                setTranslationY(yPosition+deltaY);
+                deltaY = event.getRawY() - yStart;
+                setTranslationX(xPosition + deltaX);
+                setTranslationY(yPosition + deltaY);
                 break;
             case MotionEvent.ACTION_UP:
                 xPosition = getX();
@@ -154,7 +170,7 @@ public class BaseView extends View{
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        setMeasuredDimension((int)width,(int)height);
+        setMeasuredDimension((int) width, (int) height);
     }
 
     public void setCanMove(boolean move) {
