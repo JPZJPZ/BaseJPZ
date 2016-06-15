@@ -12,29 +12,16 @@ import android.graphics.RectF;
  */
 public class BaseBitmapView extends BaseView {
 
-    /**
-     * default scaleType
-     */
+    // default scaleType
     private final int SCALE_DEFAULT = 0;
-    /**
-     * in center and clip if the bitmap is bigger
-     */
+    // in center and clip if the bitmap is bigger
     private final int CENTER = 1;
-    /**
-     * scale let the short side fit the view size,the long side clip
-     */
+    // scale let the short side fit the view size,the long side clip
     private final int CENTER_CROP = 2;
-    /**
-     *  scale the bitmap to fit the view,if the bitmap is smaller than the view,not scaled
-     */
+    //  scale the bitmap to fit the view,if the bitmap is smaller than the view,not scaled
     private final int CENTER_INSIDE = 3;
-    /**
-     * let the bitmap fit the view,so it's may shaped
-     */
+    //let the bitmap fit the view,so it's may shaped
     private final int FIT_XY = 4;
-
-
-
 
     private int scaleType = FIT_XY;
 
@@ -109,10 +96,10 @@ public class BaseBitmapView extends BaseView {
             return;
         }
 
-        if(scaleType == FIT_XY) {
-            Rect res = new Rect(0,0,bitmapWidth,bitmapHeight);
-            RectF dst = new RectF(0,0,width,height);
-            canvas.drawBitmap(mBitmap,res,dst,mPaint);
+        if (scaleType == FIT_XY) {
+            Rect res = new Rect(0, 0, bitmapWidth, bitmapHeight);
+            RectF dst = new RectF(0, 0, width, height);
+            canvas.drawBitmap(mBitmap, res, dst, mPaint);
             return;
         }
 

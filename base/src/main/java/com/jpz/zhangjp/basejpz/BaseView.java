@@ -5,56 +5,39 @@ import android.graphics.Paint;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.jpz.zhangjp.basejpz.com.jpz.zhangjp.basejpz.utils.LogUtils;
 import com.jpz.zhangjp.basejpz.com.jpz.zhangjp.basejpz.utils.Utils;
 
 /**
  * Created by zhangjp on 2016/6/7.
  */
 public class BaseView extends View {
-    /**
-     * activity who added the view
-     */
+    // activity who added the view
     Activity mActivity;
 
-    /**
-     * view width
-     */
+    //view width
     float width;
-    /**
-     * view height
-     */
+    //view height
     float height;
-    /**
-     * view move deltaX
-     */
+    //view move deltaX
     float deltaX;
-    /**
-     * view move deltaY
-     */
+    //view move deltaY
     float deltaY;
-    /**
-     * view init or move stop  position(X) relative it's parent view
-     */
-    float xPosition;
-    /**
-     * view init or move stop  position(Y) relative it's parent view
-     */
-    float yPosition;
-    /**
-     * can move or not
-     */
-    boolean canMove = false;
+    //view init or move stop  position(X) relative it's parent view
+    private float xPosition;
+    // view init or move stop  position(Y) relative it's parent view
+    private float yPosition;
+    //if the view move follow finger
+    boolean moveFollowFinger = false;
 
-    /**
-     *
-     */
+    private boolean isMoving = false;
+
     Paint mPaint;
 
     public BaseView(Activity activity) {
         super(activity);
         mActivity = activity;
         mPaint = new Paint();
+        ViewManager.getInstance().put(mActivity, this);
     }
 
     /**
@@ -123,37 +106,44 @@ public class BaseView extends View {
         setYPosition(Utils.getScreenHeight(mActivity) * percentY);
     }
 
+    public float getXPosition() {
+        return xPosition;
+    }
+
+    public float getYPosition() {
+        return yPosition;
+    }
+
     public void setPaint(Paint paint) {
         mPaint = paint;
     }
 
-    /**
-     * action_down x position
-     */
+    // action_down x position
     float xStart;
-    /**
-     * action_down y position
-     */
+    // action_down y position
     float yStart;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (!canMove) {
+        if (!moveFollowFinger) {
             return super.onTouchEvent(event);
         }
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 xStart = event.getRawX();
                 yStart = event.getRawY();
-                LogUtils.logI("event.getX() = " + event.getX() + "  event.getRawX() = " + event.getRawX());
+                ViewManager.getInstance().setIsMoving("One",true);
                 return true;
             case MotionEvent.ACTION_MOVE:
                 deltaX = event.getRawX() - xStart;
                 deltaY = event.getRawY() - yStart;
                 setTranslationX(xPosition + deltaX);
                 setTranslationY(yPosition + deltaY);
+               // LogUtils.logI("event.getX() = " + event.getX() + "  event.getRawX() = " + event.getRawX() + "view.getX()" + getX());
+                ViewManager.getInstance().moveFollow(this,"One",deltaX,deltaY);
                 break;
             case MotionEvent.ACTION_UP:
+                ViewManager.getInstance().setIsMoving("One",false);
                 xPosition = getX();
                 yPosition = getY();
                 break;
@@ -173,12 +163,20 @@ public class BaseView extends View {
         setMeasuredDimension((int) width, (int) height);
     }
 
-    public void setCanMove(boolean move) {
-        canMove = move;
+    public void setMoveFollowFingerEnable(boolean enable) {
+        moveFollowFinger = enable;
     }
 
-    public boolean getCanMove() {
-        return canMove;
+    public boolean isMoveFollowFinger() {
+        return moveFollowFinger;
+    }
+
+    public void setIsMoving(boolean moving) {
+        isMoving = moving;
+    }
+
+    public boolean isMoving() {
+        return isMoving;
     }
 
 }
