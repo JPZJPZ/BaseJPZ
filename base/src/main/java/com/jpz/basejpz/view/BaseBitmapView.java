@@ -1,4 +1,4 @@
-package com.jpz.zhangjp.basejpz;
+package com.jpz.basejpz.view;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -6,6 +6,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.RectF;
+
+import com.jpz.basejpz.R;
+
 
 /**
  * Created by zhangjp on 2016/6/12.

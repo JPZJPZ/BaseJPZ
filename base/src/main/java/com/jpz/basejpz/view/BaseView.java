@@ -1,11 +1,12 @@
-package com.jpz.zhangjp.basejpz;
+package com.jpz.basejpz.view;
 
 import android.app.Activity;
 import android.graphics.Paint;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.jpz.zhangjp.basejpz.com.jpz.zhangjp.basejpz.utils.Utils;
+import com.jpz.basejpz.control.ViewManager;
+import com.jpz.basejpz.utils.Utils;
 
 /**
  * Created by zhangjp on 2016/6/7.
@@ -15,9 +16,9 @@ public class BaseView extends View {
     Activity mActivity;
 
     //view width
-    float width;
+    public float width;
     //view height
-    float height;
+    public float height;
     //view move deltaX
     float deltaX;
     //view move deltaY
@@ -28,9 +29,12 @@ public class BaseView extends View {
     private float yPosition;
     //if the view move follow finger
     boolean moveFollowFinger = false;
-
+    /**
+     * whether the view is moving,when touched the view or the view is move
+     * follow the another,return true
+     */
     private boolean isMoving = false;
-
+    //view's paint
     Paint mPaint;
 
     public BaseView(Activity activity) {
@@ -106,10 +110,16 @@ public class BaseView extends View {
         setYPosition(Utils.getScreenHeight(mActivity) * percentY);
     }
 
+    /**
+     * @return the x coordinate relative the screen (0,0)
+     */
     public float getXPosition() {
         return xPosition;
     }
 
+    /**
+     * @return the y coordinate relative the screen (0,0)
+     */
     public float getYPosition() {
         return yPosition;
     }

@@ -1,9 +1,10 @@
-package com.jpz.zhangjp.basejpz;
+package com.jpz.basejpz.Test;
 
 import android.app.Activity;
 import android.os.Bundle;
 
-import com.jpz.zhangjp.basejpz.com.jpz.zhangjp.basejpz.utils.JPZViewGroup;
+import com.jpz.basejpz.control.ViewManager;
+import com.jpz.basejpz.view.JPZViewGroup;
 
 /**
  * Created by zhangjp on 2016/6/7.

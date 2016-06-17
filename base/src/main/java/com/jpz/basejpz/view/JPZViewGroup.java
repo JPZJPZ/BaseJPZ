@@ -1,7 +1,6 @@
-package com.jpz.zhangjp.basejpz.com.jpz.zhangjp.basejpz.utils;
+package com.jpz.basejpz.view;
 
 import android.content.Context;
-import android.view.View;
 import android.widget.RelativeLayout;
 
 /**

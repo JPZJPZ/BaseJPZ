@@ -1,9 +1,9 @@
-package com.jpz.zhangjp.basejpz;
+package com.jpz.basejpz.control;
 
 import android.app.Activity;
 import android.view.View;
 
-import com.jpz.zhangjp.basejpz.com.jpz.zhangjp.basejpz.utils.LogUtils;
+import com.jpz.basejpz.view.BaseView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,20 +15,24 @@ import java.util.Map;
  */
 public class ViewManager {
     private static ViewManager manager;
+    private static final String LOCK = "lock";
     Map<String, List<View>> map = new HashMap<String, List<View>>();
     Map<String, List<View>> group = new HashMap<String, List<View>>();
 
     public static ViewManager getInstance() {
         if (manager == null) {
-            manager = new ViewManager();
+            synchronized (LOCK) {
+                if (manager == null) {
+                    manager = new ViewManager();
+                }
+            }
         }
+
         return manager;
     }
 
     private ViewManager() {
     }
-
-    ;
 
     public void put(Activity activity, View view) {
         List<View> list = getList(activity);
@@ -46,10 +50,6 @@ public class ViewManager {
         return map.get(activity.getComponentName().flattenToString());
     }
 
-    public List<View> getList(String groupName) {
-        return map.get(groupName);
-    }
-
     public void remove(Activity activity, View view) {
         List<View> list = getList(activity);
         if (list == null) {
@@ -57,6 +57,12 @@ public class ViewManager {
         }
         list.remove(view);
     }
+
+    public List<View> getList(String groupName) {
+        return map.get(groupName);
+    }
+
+
 
     public void putViewToGroup(String groupName, View view) {
         List<View> list = getList(groupName);
@@ -82,17 +88,17 @@ public class ViewManager {
         }
     }
 
-    public void moveFollow(View view,String groupName, float deltaX, float deltaY) {
+    public void moveFollow(View view, String groupName, float deltaX, float deltaY) {
         List<View> list = getList(groupName);
         if (list != null && list.size() != 0) {
             for (int i = 0; i < list.size(); i++) {
                 BaseView baseView = (BaseView) list.get(i);
-                if(baseView == view) {
+                if (baseView == view) {
                     continue;
                 }
                 baseView.setTranslationX(baseView.getXPosition() + deltaX);
                 baseView.setTranslationY(baseView.getYPosition() + deltaY);
-                if(!baseView.isMoving()) {
+                if (!baseView.isMoving()) {
                     baseView.setXPosition(baseView.getX());
                     baseView.setYPosition(baseView.getY());
                 }
@@ -100,14 +106,16 @@ public class ViewManager {
         }
     }
 
-    public void setIsMoving(String groupName,boolean isMoving) {
+    public void setIsMoving(String groupName, boolean isMoving) {
         List<View> list = getList(groupName);
         if (list != null && list.size() != 0) {
             for (int i = 0; i < list.size(); i++) {
                 BaseView baseView = (BaseView) list.get(i);
                 baseView.setIsMoving(isMoving);
-                baseView.setXPosition(baseView.getX());
-                baseView.setYPosition(baseView.getY());
+                if (!isMoving) {
+                    baseView.setXPosition(baseView.getX());
+                    baseView.setYPosition(baseView.getY());
+                }
             }
         }
     }

@@ -1,16 +1,18 @@
-package com.jpz.zhangjp.basejpz;
+package com.jpz.basejpz.Test;
 
 import android.app.Activity;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import com.jpz.basejpz.view.BaseView;
+
 import java.util.Random;
 
 /**
  * Created by zhangjp on 2016/6/7.
  */
-public class TestView extends  BaseView{
+public class TestView extends BaseView {
     private final String TAG = "TestView";
 
     Paint paint ;

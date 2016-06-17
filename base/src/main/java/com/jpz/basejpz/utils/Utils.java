@@ -1,4 +1,4 @@
-package com.jpz.zhangjp.basejpz.com.jpz.zhangjp.basejpz.utils;
+package com.jpz.basejpz.utils;
 
 import android.app.Activity;
 import android.util.DisplayMetrics;
